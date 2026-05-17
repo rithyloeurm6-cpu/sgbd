@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday</title>
+
+  <style>
+    /* ===== BASIC ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: AKbalthom KhmerHand;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #ff006e, #8338ec, #3a86ff, #06d6a0, #ffbe0b);
+      background-size: 400% 400%;
+      animation: bg 8s infinite alternate;
+      color: white;
+      text-align: center;
+    }
+
+    @keyframes bg {
+      0% {
+        background-position: left;
+      }
+
+      100% {
+        background-position: right;
+      }
+    }
+
+    /* ===== CARD ===== */
+    .container {
+      width: 90%;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      padding: 25px;
+      border-radius: 20px;
+    }
+
+    /* ===== IMAGE ===== */
+    img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid white;
+      animation: spin 8s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(0deg);
+      }
+    }
+
+    /* ===== BUTTON ===== */
+    button {
+      margin-top: 15px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    /* ===== HIDDEN CONTENT ===== */
+    .hidden {
+      display: none;
+    }
+
+    /* ===== WISH BOX ===== */
+    .wish-box {
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 15px;
+      border-radius: 15px;
+    }
+
+    .wish-box img {
+      width: 150px;
+      height: 300px;
+      border-radius: 0%;
+      margin-bottom: 0px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 90px;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      resize: none;
+    }
+
+    .singleWish {
+      margin-top: 10px;
+      background: rgba(255, 255, 255, 0.3);
+      padding: 10px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- រូបភាពមេ (តែងតែបង្ហាញ) -->
+    <img src="sg.jpg" alt="me">
+
+    <h2>🎉 Happy Birthday to me!🎉</h2>
+
+    <!-- ប៊ូតុង START (ដាក់ id ដើម្បីលាក់) -->
+    <button id="startBtn" onclick="startParty()">START 🎵</button>
+
+    <!-- អត្ថបទលាក់មុន -->
+    <p id="text" class="hidden">
+      មួយឆ្នាំទៀតដែលខ្ញុំកាន់តែរឹងមាំ និងខិតតាមចាប់ក្តីស្រមៃរបស់ខ្ញុំ។
+      ខ្ញុំមានមោទនភាពលើខ្លួនឯង ដែលអាចឆ្លងកាត់ពេលលំបាកៗ ហើយនៅតែបន្តដើរទៅមុខ។
+      ថ្ងៃនេះជាថ្ងៃរបស់ខ្ញុំ ដើម្បីញញឹម សប្បាយរីករាយ និងអបអរខ្លួនឯង។
+      សូមឲ្យឆ្នាំថ្មីនៃជីវិតនេះ នាំមកនូវសុភមង្គល ជោគជ័យ សុខភាពល្អ លុយកាក់ មិត្តល្អៗ
+      និងអនុស្សាវរីយ៍ដែលមិនអាចបំភ្លេចបាន។
+      មិនថាមានអ្វីកើតឡើងក៏ដោយ ខ្ញុំនឹងនៅតែជឿលើខ្លួនឯង ហើយមិនបោះបង់ឡើយ។
+      សូមអបអរសាទរចំពោះជំពូកថ្មី ឱកាសថ្មី និងខ្លួនខ្ញុំដែលកាន់តែល្អជាងមុន។
+    </p>
+
+    <!-- ភ្លេង -->
+    <audio id="music" src="sg.mp4"></audio>
+
+    <!-- ប្រអប់ wish (លាក់មុន) -->
+    <div id="wishBox" class="wish-box hidden">
+
+      <!-- រូបខាងលើ wish box -->
+      <img src="qrsg.jpg" alt="gift">
+
+      <h3>Birthday Message Box!</h3>
+
+      <textarea id="wishInput" placeholder="Write wish..."></textarea>
+
+      <button onclick="sendWish()">Send 💌</button>
+
+      <div id="allWishes"></div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    function startParty() {
+
+      // 🔹 លាក់ប៊ូតុង START ពេលចុច
+      document.getElementById("startBtn").style.display = "none";
+
+      // 🔹 បង្ហាញអត្ថបទជូនពរ
+      document.getElementById("text").classList.remove("hidden");
+
+      // 🔹 បង្ហាញ wish box
+      document.getElementById("wishBox").classList.remove("hidden");
+
+      // 🔹 ចាក់ភ្លេង
+      document.getElementById("music").play();
+    }
+
+    function sendWish() {
+
+      let val = document.getElementById("wishInput").value;
+
+      if (val.trim() == "") {
+        alert("សូមសរសេរមុន 😅");
+        return;
+      }
+
+      let div = document.createElement("div");
+      div.classList.add("singleWish");
+
+      // 🔹 បញ្ចូលអត្ថបទ wish ទៅក្នុង box
+      div.innerText = val;
+
+      document.getElementById("allWishes").appendChild(div);
+
+      alert("Thank you 🎉");
+
+      document.getElementById("wishInput").value = "";
+    }
+
+  </script>
+
+</body>
+
+</html>
